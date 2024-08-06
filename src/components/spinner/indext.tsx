@@ -4,13 +4,17 @@ import { ProgressBar } from "react-loader-spinner"
 
 export default function Spinner() {
     return (
-        <ProgressBar
+        <ProgressBar 
             height={'120'}
-            width={'120'}
+            width={'300'}
             ariaLabel="Common Loader"
-            borderColor="#000"
-            barColor="#FFF"
+            borderColor="#ffffff"
+            barColor="#1d74e6"
             visible={true}
+            wrapperStyle={{
+                display: "block",
+                margin: "auto",
+            }} 
         />
     )
 }

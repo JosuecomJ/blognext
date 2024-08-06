@@ -6,6 +6,8 @@ import { menuItems } from "@/utils";
 import { MenuItem } from "@/utils/types";
 import Button from "../button";
 import ThemeToggler from "../theme";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 
 
 const getHeaderClasses = (sticky: boolean) => {
@@ -18,6 +20,10 @@ const getHeaderClasses = (sticky: boolean) => {
 export default function Header() {
     const [sticky, setSticky] = useState<boolean>(false);
     const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
+    const { data: session } = useSession();
+
+    console.log(session, 'session');
+
 
     function handleStickyNavbar() {
         if (window.scrollY >= 80) setSticky(true);
@@ -87,19 +93,30 @@ export default function Header() {
 
                                 </nav>
                             </div>
+
+
                             <div className=" flex gap-4 items-center justify-end pr-16 lg:pr-0">
-                                <Button 
-                                    onClick={()=>{}}
-                                    text="Create"
-                                    />
-                                <Button 
-                                    onClick={()=>{}}
-                                    text="Login"
-                                    />
-                                    <div className="flex gap-3 items-center">
-                                        <ThemeToggler />
-                                    </div>
-                
+
+                                {session !== null ? (<Button
+                                    onClick={() => { }}
+                                    text="Create" />
+                                ) : null}
+
+
+                                <Button
+                                    onClick={async () => {
+                                        if (session !== null) {
+                                            await signOut();
+                                        } else {
+                                            await signIn('github');
+                                        }
+                                    }}
+                                    text={session !== null ? "Logout" : "Login"}
+                                />
+                                <div className="flex gap-3 items-center">
+                                    <ThemeToggler />
+                                </div>
+
                             </div>
                         </div>
                     </div>
